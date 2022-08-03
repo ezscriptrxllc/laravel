@@ -15,7 +15,7 @@ class FailedTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->get('/wrong-url');
+        $response = $this->get('/right-url');
 
         $response->assertStatus(200);
     }
