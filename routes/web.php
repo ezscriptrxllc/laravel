@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/right-url', function () {
+Route::get('/righturl', function () {
     return view('right-view');
 });
 
