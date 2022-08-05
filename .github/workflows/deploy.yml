@@ -4,13 +4,13 @@ on:
   pull_request:
     branches:
       - main
-      - release
+      - 'release/**'
       - develop
 
   push:
     branches:
       - main
-      - release
+      - 'release/**'
       - develop
 
 jobs:
