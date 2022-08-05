@@ -19,4 +19,6 @@
         </tbody>
     </table>
     <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">New</a>
+    <br>
+    <a href="{{ route('home') }}" class="btn btn-sm btn-primary">Back to home</a>
 @endsection
