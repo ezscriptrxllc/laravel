@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/righturl', function () {
+    return view('right-view');
+});
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::resource('users', \App\Http\Controllers\UserController::class);
