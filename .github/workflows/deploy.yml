@@ -21,10 +21,12 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: laravel
+          MYSQL_USER: ez
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secretroot
         ports:
-          - 33306:3306
+          - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -33,6 +35,12 @@ jobs:
           php-version: '8.1'
 
       - uses: actions/checkout@v3
+
+      - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uez -psecret -e "SHOW DATABASES"
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
