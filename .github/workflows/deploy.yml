@@ -46,6 +46,12 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test
 
+      - uses: matt-ball/newman-action@master
+        with:
+          collection: tests/newman/postman_collection.json
+          environment: tests/newman/postman_environment.json
+          delayRequest: 5000
+
       - if: ${{ github.event_name == 'push' }}
         name: Set Forge Webhook
         id: deployment_webhook
