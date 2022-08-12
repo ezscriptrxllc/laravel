@@ -68,13 +68,13 @@ jobs:
 
       - name: REST API with curl
         run: |
-          curl -X GET "http://localhost:8000/api/users"
+          curl -X GET "http://127.0.0.1:80/api/users"
 
       - uses: matt-ball/newman-action@master
         with:
           collection: tests/newman/postman_collection.json
           delayRequest: 5000
-          envVar: '[{ "key": "url", "value": "http://localhost:8000/api" }]'
+          envVar: '[{ "key": "url", "value": "http://127.0.0.1:80/api" }]'
 
       - if: ${{ github.event_name == 'push' }}
         name: Set Forge Webhook
