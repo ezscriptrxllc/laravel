@@ -63,6 +63,9 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test
 
+      - name: Run Artisan Server
+        run: php artisan serve
+
       - name: REST API with curl
         run: |
           curl -X GET "http://localhost/api/users"
