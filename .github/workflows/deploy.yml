@@ -51,6 +51,7 @@ jobs:
           collection: tests/newman/postman_collection.json
           environment: tests/newman/postman_environment.json
           delayRequest: 5000
+          envVar: '[{ "key": "url", "value": "http://localhost" }]'
 
       - if: ${{ github.event_name == 'push' }}
         name: Set Forge Webhook
