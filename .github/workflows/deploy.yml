@@ -63,6 +63,22 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test
 
+      - name: REST API with curl
+        run: |
+          curl -X GET "https://localhost/api/users"
+
+      - name: REST API with curl 2
+        run: |
+          curl -X GET "https://localhost:8000/api/users"
+
+      - name: REST API with curl 3
+        run: |
+          curl -X GET "http://localhost/api/users"
+
+      - name: REST API with curl 4
+        run: |
+          curl -X GET "http://localhost:8000/api/users"
+
       - uses: matt-ball/newman-action@master
         with:
           collection: tests/newman/postman_collection.json
