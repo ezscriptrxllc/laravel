@@ -68,10 +68,6 @@ jobs:
 
       - name: REST API with curl
         run: |
-          curl -X GET "http://localhost/api/users"
-
-      - name: REST API with curl 2
-        run: |
           curl -X GET "http://localhost:8000/api/users"
 
       - uses: matt-ball/newman-action@master
