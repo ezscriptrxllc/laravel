@@ -68,7 +68,7 @@ jobs:
 
       - name: REST API with curl
         run: |
-          curl -X GET "http://127.0.0.1:80/api/users"
+          curl -X GET "http://127.0.0.1:8000/api/users"
 
       - uses: matt-ball/newman-action@master
         with:
