@@ -13,7 +13,7 @@
         @foreach($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td>{{ strtoupper($user->name) }}</td>
+                <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->created_at }}</td>
             </tr>

@@ -16,6 +16,7 @@ on:
 jobs:
   pr-tests:
     runs-on: ubuntu-latest
+
     steps:
       - uses: shivammathur/setup-php@v2
         with:
@@ -34,11 +35,6 @@ jobs:
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
-
-      - name: Create Database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
 
       - name: Execute tests
         env:
@@ -63,3 +59,24 @@ jobs:
       - if: ${{ github.event_name == 'push' }}
         name: Deploy to Forge
         run: curl ${{ steps.deployment_webhook.outputs.url }}
+
+      - if: ${{ github.event_name == 'push' }}
+        name: Set API url
+        id: environment_data
+        run: |
+          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
+            echo "::set-output name=url::${{ secrets.TEST_URL }}"
+          fi
+          if [[ "${{github.base_ref}}" == "release" || "${{github.ref}}" == "refs/heads/release" ]]; then
+            echo "::set-output name=url::${{ secrets.FORGE_DEMO_DEPLOYMENT_WEBHOOK }}"
+          fi
+          if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
+            echo "::set-output name=url::${{ secrets.FORGE_TEST_DEPLOYMENT_WEBHOOK }}"
+          fi
+
+      - if: ${{ github.event_name == 'push' }}
+        uses: matt-ball/newman-action@master
+        with:
+          collection: tests/newman/postman_collection.json
+          delayRequest: 5000
+          envVar: '[{ "key": "url", "value": "${{ secrets.TEST_URL }}/api" }]'
