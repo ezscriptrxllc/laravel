@@ -40,6 +40,9 @@ jobs:
           mkdir -p database
           touch database/database.sqlite
 
+      - name: Seed database
+        run: php artisan migrate --force --seed
+
       - name: Execute tests
         env:
           DB_CONNECTION: sqlite
