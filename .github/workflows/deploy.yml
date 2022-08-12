@@ -17,30 +17,12 @@ jobs:
   pr-tests:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: laravel
-          MYSQL_USER: ez
-          MYSQL_PASSWORD: secret
-          MYSQL_ROOT_PASSWORD: secretroot
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
 
       - uses: actions/checkout@v3
-
-      - name: Verify MySQL connection
-        run: |
-          mysql --version
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uez -psecret -e "SHOW DATABASES"
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -63,19 +45,6 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test
 
-      - name: Run Laravel Server
-        run: php artisan serve > /dev/null 2>&1 &
-
-      - name: REST API with curl
-        run: |
-          curl -X GET "http://test.backend.ezscriptrx.com/api"
-
-      - uses: matt-ball/newman-action@master
-        with:
-          collection: tests/newman/postman_collection.json
-          delayRequest: 5000
-          envVar: '[{ "key": "url", "value": "http://127.0.0.1:8000/api" }]'
-
       - if: ${{ github.event_name == 'push' }}
         name: Set Forge Webhook
         id: deployment_webhook
@@ -93,3 +62,24 @@ jobs:
       - if: ${{ github.event_name == 'push' }}
         name: Deploy to Forge
         run: curl ${{ steps.deployment_webhook.outputs.url }}
+
+      - if: ${{ github.event_name == 'push' }}
+        name: Set API url
+        id: environment_data
+        run: |
+          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
+            echo "::set-output name=url::${{ secrets.TEST_URL }}"
+          fi
+          if [[ "${{github.base_ref}}" == "release" || "${{github.ref}}" == "refs/heads/release" ]]; then
+            echo "::set-output name=url::${{ secrets.FORGE_DEMO_DEPLOYMENT_WEBHOOK }}"
+          fi
+          if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
+            echo "::set-output name=url::${{ secrets.FORGE_TEST_DEPLOYMENT_WEBHOOK }}"
+          fi
+
+      - if: ${{ github.event_name == 'push' }}
+        uses: matt-ball/newman-action@master
+        with:
+          collection: tests/newman/postman_collection.json
+          delayRequest: 5000
+          envVar: '[{ "key": "url", "value": "${{ secrets.TEST_URL }}/api" }]'
