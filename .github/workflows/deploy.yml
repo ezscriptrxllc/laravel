@@ -54,13 +54,6 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-#      - name: Create Database
-#        uses: getong/mariadb-action@v1.1
-#        with:
-#          mysql database: 'laravel'
-#          mysql user: 'root'
-#          mysql password: 'root'
-
       - name: Seed database
         run: php artisan migrate --force --seed
 
@@ -74,7 +67,7 @@ jobs:
         with:
           collection: tests/newman/postman_collection.json
           delayRequest: 5000
-          envVar: '[{ "key": "url", "value": "http://localhost/api" }]'
+          envVar: '[{ "key": "url", "value": "http://localhost:8000/api" }]'
 
       - if: ${{ github.event_name == 'push' }}
         name: Set Forge Webhook
