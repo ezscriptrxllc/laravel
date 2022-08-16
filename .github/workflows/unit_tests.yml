@@ -7,11 +7,7 @@ on:
       - 'release/**'
       - develop
 
-#  push:
-#    branches:
-#      - main
-#      - 'release/**'
-#      - develop
+  workflow_call:
 
 jobs:
   pr-tests:
@@ -37,46 +33,4 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: Execute tests
-#        env:
-#          DB_CONNECTION: sqlite
-#          DB_DATABASE: database/database.sqlite
         run: php artisan test
-
-#      - if: ${{ github.event_name == 'push' }}
-#        name: Set Forge Webhook
-#        id: deployment_webhook
-#        run: |
-#          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
-#            echo "::set-output name=url::${{ secrets.FORGE_LIVE_DEPLOYMENT_WEBHOOK }}"
-#          fi
-#          if [[ "${{github.base_ref}}" == "release" || "${{github.ref}}" == "refs/heads/release" ]]; then
-#            echo "::set-output name=url::${{ secrets.FORGE_DEMO_DEPLOYMENT_WEBHOOK }}"
-#          fi
-#          if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
-#            echo "::set-output name=url::${{ secrets.FORGE_TEST_DEPLOYMENT_WEBHOOK }}"
-#          fi
-#
-#      - if: ${{ github.event_name == 'push' }}
-#        name: Deploy to Forge
-#        run: curl ${{ steps.deployment_webhook.outputs.url }}
-#
-#      - if: ${{ github.event_name == 'push' }}
-#        name: Set API url
-#        id: environment_data
-#        run: |
-#          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
-#            echo "::set-output name=url::${{ secrets.LIVE_URL }}"
-#          fi
-#          if [[ "${{github.base_ref}}" == "release" || "${{github.ref}}" == "refs/heads/release" ]]; then
-#            echo "::set-output name=url::${{ secrets.DEMO_URL }}"
-#          fi
-#          if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
-#            echo "::set-output name=url::${{ secrets.TEST_URL }}"
-#          fi
-#
-#      - if: ${{ github.event_name == 'push' }}
-#        uses: matt-ball/newman-action@master
-#        with:
-#          collection: tests/newman/postman_collection.json
-#          delayRequest: 5000
-#          envVar: '[{ "key": "url", "value": "${{ steps.environment_data.outputs.url }}/api" }]'
