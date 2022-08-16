@@ -37,9 +37,9 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: Execute tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+#        env:
+#          DB_CONNECTION: sqlite
+#          DB_DATABASE: database/database.sqlite
         run: php artisan test
 
       - if: ${{ github.event_name == 'push' }}
