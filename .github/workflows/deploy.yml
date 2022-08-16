@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@master
+
       - name: Set Forge Webhook
         id: deployment_webhook
         run: |
@@ -35,8 +37,10 @@ jobs:
           if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
             echo "::set-output name=url::${{ secrets.FORGE_TEST_DEPLOYMENT_WEBHOOK }}"
           fi
+
       - name: Deploy to Forge
         run: curl ${{ steps.deployment_webhook.outputs.url }}
+
       - name: Set API url
         id: environment_data
         run: |
@@ -49,6 +53,7 @@ jobs:
           if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
             echo "::set-output name=url::${{ secrets.TEST_URL }}"
           fi
+
       - name: Run Newman Collections
         uses: matt-ball/newman-action@master
         with:
