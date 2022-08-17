@@ -32,9 +32,20 @@ jobs:
             echo "::set-output name=url::${{ secrets.TEST_URL }}"
           fi
 
-      - name: Run Newman Collections
-        uses: matt-ball/newman-action@master
+      - name: Run API Tests
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
         with:
-          collection: ./tests/newman/postman_collection.json
-          delayRequest: 5000
-          envVar: '[{ "key": "url", "value": "${{ steps.environment_data.outputs.url }}/api" }]'
+          apiKey: ${{ secrets.POSTMAN_APIKEY }}
+          collection: bab22df3-0221-0251-5849-b34eab2bfa49
+          reporters: cli
+
+      - name: Output summary to console
+        run: echo ${{ steps.run-newman.outputs.summary }}
+
+#      - name: Run Newman Collections
+#        uses: matt-ball/newman-action@master
+#        with:
+#          collection: ./tests/newman/postman_collection.json
+#          delayRequest: 5000
+#          envVar: '[{ "key": "url", "value": "${{ steps.environment_data.outputs.url }}/api" }]'
