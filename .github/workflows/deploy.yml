@@ -12,8 +12,6 @@ on:
       - 'release/**'
       - develop
 
-  workflow_call:
-
 jobs:
   call-unit-test-workflow:
     uses: ./.github/workflows/unit_tests.yml
