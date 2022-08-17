@@ -1,6 +1,8 @@
 name: Deploy Workflow
 
 on:
+  workflow_call:
+
   workflow_run:
     workflows: ["Unit tests"]
     types:
@@ -53,10 +55,3 @@ jobs:
           if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
             echo "::set-output name=url::${{ secrets.TEST_URL }}"
           fi
-
-      - name: Run Newman Collections
-        uses: matt-ball/newman-action@master
-        with:
-          collection: ./tests/newman/postman_collection.json
-          delayRequest: 5000
-          envVar: '[{ "key": "url", "value": "${{ steps.environment_data.outputs.url }}/api" }]'
