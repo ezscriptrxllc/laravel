@@ -38,16 +38,3 @@ jobs:
           apiKey: ${{ secrets.POSTMAN_APIKEY }}
           collection: ${{ secrets.POSTMAN_COLLECTION_ID }}
           environment: ${{ secrets.POSTMAN_TEST_ENVIRONMENT }}
-#        id: run-newman
-#        uses: anthonyvscode/newman-action@v1
-#        with:
-#          apiKey: ${{ secrets.POSTMAN_APIKEY }}
-#          collection: ${{ secrets.POSTMAN_COLLECTION_ID }}
-#          delayRequest: 5000
-#          reporters: cli
-#
-#      - name: Output summary to console
-#        run: echo ${{ steps.run-newman.outputs.summary }}
-#
-#      - name: Output full summary to console
-#        run: echo ${{ steps.run-newman.outputs.summary_full }}
