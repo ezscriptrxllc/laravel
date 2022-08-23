@@ -29,7 +29,7 @@ jobs:
             echo "::set-output name=environment::${{ secrets.POSTMAN_DEMO_ENVIRONMENT }}"
           fi
           if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
-            echo "::set-output name=environment::${{ secrets.POSTMAN_DEMO_ENVIRONMENT }}"
+            echo "::set-output name=environment::${{ secrets.POSTMAN_TEST_ENVIRONMENT }}"
           fi
 
       - name: Run API Tests
