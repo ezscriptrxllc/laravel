@@ -18,7 +18,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => fake()->userName,
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
