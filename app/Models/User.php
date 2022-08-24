@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
@@ -54,6 +55,7 @@ class User extends Authenticatable
     protected function email(): Attribute
     {
         return Attribute::make(
+            get: fn($value) => Str::mask($value,'*',0, 3),
             set: fn($value) => Str::lower($value)
         );
     }
