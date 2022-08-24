@@ -1,0 +1,20 @@
+name: Publish Jira Release
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+  publish:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: GeoWerkstatt/create-jira-release@v1
+        with:
+          jira-project-key: 'TEST'
+          jira-automation-webhook: ${{ secrets.JIRA_AUTOMATION_WEBHOOK }}
+          build-version: v${{ env.VERSION }}
