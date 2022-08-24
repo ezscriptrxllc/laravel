@@ -13,3 +13,5 @@ composer install --ignore-platform-reqs
 ```
 
 When using the `laravelsail/phpXX-composer` image, you should use the same version of PHP that you plan to use for your application (74, 80, or 81).
+
+--
