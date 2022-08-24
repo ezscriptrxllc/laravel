@@ -20,7 +20,15 @@
         @endforeach
         </tbody>
     </table>
-    <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">New</a>
+    <a href="{{ route('users.create') }}"
+       style="
+            background-color: aquamarine;
+            color: #1a202c;
+            padding: 0.2rem;
+            border-radius: 0.5rem;
+       ">
+        New
+    </a>
     <br>
-    <a href="{{ route('home') }}" class="btn btn-sm btn-primary">Back to home</a>
+    <a href="{{ route('home') }}" >Back to home</a>
 @endsection
