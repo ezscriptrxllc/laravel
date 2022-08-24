@@ -15,6 +15,6 @@ jobs:
 
       - uses: GeoWerkstatt/create-jira-release@v1
         with:
-          jira-project-key: 'TEST'
+          jira-project-key: ${{ secrets.JIRA_PROJECT_KEY }}
           jira-automation-webhook: ${{ secrets.JIRA_AUTOMATION_WEBHOOK }}
           build-version: v${{ env.VERSION }}
