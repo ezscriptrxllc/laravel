@@ -7,6 +7,10 @@ on:
       - release
       - develop
 
+  push:
+    branches:
+      - main
+
   workflow_call:
 
 jobs:
