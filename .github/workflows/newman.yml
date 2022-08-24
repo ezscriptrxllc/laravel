@@ -23,13 +23,13 @@ jobs:
         id: environment_data
         run: |
           if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
-            echo "::set-output name=url::${{ secrets.LIVE_URL }}"
+            echo "::set-output name=environment::${{ secrets.POSTMAN_LIVE_ENVIRONMENT }}"
           fi
           if [[ "${{github.base_ref}}" == "release" || "${{github.ref}}" == "refs/heads/release" ]]; then
-            echo "::set-output name=url::${{ secrets.DEMO_URL }}"
+            echo "::set-output name=environment::${{ secrets.POSTMAN_DEMO_ENVIRONMENT }}"
           fi
           if [[ "${{github.base_ref}}" == "develop" || "${{github.ref}}" == "refs/heads/develop" ]]; then
-            echo "::set-output name=url::${{ secrets.TEST_URL }}"
+            echo "::set-output name=environment::${{ secrets.POSTMAN_TEST_ENVIRONMENT }}"
           fi
 
       - name: Run API Tests
@@ -37,4 +37,4 @@ jobs:
         with:
           apiKey: ${{ secrets.POSTMAN_APIKEY }}
           collection: ${{ secrets.POSTMAN_COLLECTION_ID }}
-          environment: ${{ secrets.POSTMAN_TEST_ENVIRONMENT }}
+          environment: ${{ steps.environment_data.outputs.environment }}
