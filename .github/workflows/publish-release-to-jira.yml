@@ -1,0 +1,17 @@
+name: New Published Release
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run a one-line script
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          https://automation.atlassian.com/pro/hooks/17f087d846e1ffd37f0d5cc19f0d9a0d02507e15
