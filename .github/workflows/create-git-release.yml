@@ -31,3 +31,5 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           https://automation.atlassian.com/pro/hooks/17f087d846e1ffd37f0d5cc19f0d9a0d02507e15
+          -H 'Content-Type: application/json'
+          -d '{"user":"my_login","password":"my_password"}'
