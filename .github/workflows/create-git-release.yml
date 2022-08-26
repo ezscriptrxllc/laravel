@@ -6,8 +6,8 @@ on:
 name: Create Release
 
 jobs:
-  build:
-    name: Create Release
+  build-github-release:
+    name: Create GitHub Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
