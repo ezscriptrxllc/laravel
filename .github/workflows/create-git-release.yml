@@ -27,8 +27,12 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Post to Jira webhook
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          -d '{"user":"my_login","password":"my_password"}' \
+          -d '{"tag":"${{ steps.get_version.outputs.VERSION }}"}' \
           https://automation.atlassian.com/pro/hooks/17f087d846e1ffd37f0d5cc19f0d9a0d02507e15
