@@ -55,7 +55,7 @@ class User extends Authenticatable
     protected function email(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Str::mask($value,'*',0, 3),
+            get: fn($value) => Str::mask($value,'*',strpos($value,'@')),
             set: fn($value) => Str::lower($value)
         );
     }
