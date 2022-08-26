@@ -10,8 +10,8 @@ jobs:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
+      - uses: actions/checkout@master
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
@@ -26,3 +26,8 @@ jobs:
             - Second Change
           draft: false
           prerelease: false
+
+      - name: Post to Jira webhook
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          https://automation.atlassian.com/pro/hooks/17f087d846e1ffd37f0d5cc19f0d9a0d02507e15
