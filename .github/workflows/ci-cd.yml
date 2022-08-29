@@ -64,7 +64,7 @@ jobs:
         run: curl ${{ steps.deployment_webhook.outputs.url }}
 
       - name: Move JIRA issues
-        if: (github.base_ref == "release" || github.ref == "refs/heads/release")
+        if: github.ref == "refs/heads/release"
         run: |
           curl -X POST -H 'Content-type: application/json' \
           https://automation.atlassian.com/pro/hooks/698d80f74701d66b2a9e04e3784d4267d218418f
