@@ -22,15 +22,18 @@
         @endforeach
         </tbody>
     </table>
-    <a href="{{ route('users.create') }}"
-       style="
+    <div style="padding-top: 2rem;">
+        <a href="{{ route('users.create') }}"
+           style="
             background-color: aquamarine;
             color: #1a202c;
             padding: 0.2rem;
             border-radius: 0.5rem;
        ">
-        New
-    </a>
-    <br>
-    <a href="{{ route('home') }}" >Back to home</a>
+            New
+        </a>
+        <br>
+        <a href="{{ route('home') }}" >Back to home</a>
+    </div>
+
 @endsection
