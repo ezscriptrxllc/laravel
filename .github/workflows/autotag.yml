@@ -33,14 +33,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Get the version
-#        id: get_version
-#        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$RELEASE_VERSION
 
       - name: Post to Jira webhook
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          -d '{"tag":"${{ $RELEASE_VERSION }}"}' \
+          -d '{"tag":"${{ steps.get_version.outputs.VERSION }}"}' \
           https://automation.atlassian.com/pro/hooks/17f087d846e1ffd37f0d5cc19f0d9a0d02507e15
 
       - run: |
