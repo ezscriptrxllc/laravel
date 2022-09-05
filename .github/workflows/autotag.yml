@@ -46,5 +46,5 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           -d '{"tag":"'"$RELEASE_VERSION"'"}' \
-#          -d '{"tag":"${{ steps.get_version.outputs.VERSION }}"}' \
           ${{ secrets.JIRA_PUBLISHED_RELEASE }}
+#          -d '{"tag":"${{ steps.get_version.outputs.VERSION }}"}' \
