@@ -11,6 +11,11 @@ on:
 
   workflow_dispatch:
 
+  workflow_run:
+    workflows: ["CI/CD"]
+    type:
+      - complete
+
 jobs:
   tagging:
     runs-on: ubuntu-latest
