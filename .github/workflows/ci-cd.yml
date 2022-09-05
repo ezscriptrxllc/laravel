@@ -97,3 +97,42 @@ jobs:
           apiKey: ${{ secrets.POSTMAN_APIKEY }}
           collection: ${{ secrets.POSTMAN_COLLECTION_ID }}
           environment: ${{ steps.environment_data.outputs.environment }}
+
+  tagging:
+    if: github.event_name == 'push' && (github.base_ref == "main" || github.ref == "refs/heads/main")
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: codfish/semantic-release-action@v2
+        with:
+          branches: |
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'main',
+              'next',
+              'next-major',
+              {
+                name: 'beta',
+                prerelease: true
+              },
+              {
+                name: 'alpha',
+                prerelease: true
+              }
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$RELEASE_VERSION
+
+      - name: Post to Jira webhook
+        if: $NEW_RELEASE_PUBLISHED == 'true'
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          -d '{"tag":"'"$RELEASE_VERSION"'"}' \
+          ${{ secrets.JIRA_PUBLISHED_RELEASE }}
