@@ -99,7 +99,7 @@ jobs:
           environment: ${{ steps.environment_data.outputs.environment }}
 
   tagging:
-    if: github.event_name == 'push' && (github.base_ref == "main" || github.ref == "refs/heads/main")
+    if: github.event_name == 'push' && (github.base_ref == 'main' || github.ref == 'refs/heads/main')
     needs: deploy
     runs-on: ubuntu-latest
 
