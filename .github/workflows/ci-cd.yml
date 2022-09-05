@@ -131,7 +131,7 @@ jobs:
         run: echo ::set-output name=VERSION::$RELEASE_VERSION
 
       - name: Post to Jira webhook
-        if: $NEW_RELEASE_PUBLISHED == 'true'
+        if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
           -d '{"tag":"'"$RELEASE_VERSION"'"}' \
