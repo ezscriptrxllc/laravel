@@ -107,6 +107,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - uses: codfish/semantic-release-action@v2
+        id: release
         with:
           branches: |
             [
@@ -130,7 +131,7 @@ jobs:
 #        id: get_version
 #        run: echo ::set-output name=VERSION::$RELEASE_VERSION
 
-      - name: Post to Jira webhook
+      - name: Create Jira release
         if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
@@ -138,6 +139,7 @@ jobs:
           ${{ secrets.JIRA_PUBLISHED_RELEASE }}
 
       - name: Create Sentry release
+        if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
         uses: getsentry/action-release@v1
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -145,4 +147,4 @@ jobs:
           SENTRY_PROJECT: 'rc'
         with:
           environment: production
-          version: $RELEASE_VERSION
+          version: ${{ steps.release.outputs.release-version }}
