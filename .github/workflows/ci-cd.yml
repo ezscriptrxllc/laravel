@@ -126,9 +126,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::$RELEASE_VERSION
+#      - name: Get the version
+#        id: get_version
+#        run: echo ::set-output name=VERSION::$RELEASE_VERSION
 
       - name: Post to Jira webhook
         if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
@@ -136,3 +136,13 @@ jobs:
           curl -X POST -H 'Content-type: application/json' \
           -d '{"tag":"'"$RELEASE_VERSION"'"}' \
           ${{ secrets.JIRA_PUBLISHED_RELEASE }}
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: 'ezscriptrx'
+          SENTRY_PROJECT: 'rc'
+        with:
+          environment: production
+          version: $RELEASE_VERSION
