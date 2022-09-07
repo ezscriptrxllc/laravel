@@ -1,4 +1,5 @@
 {
+    "name": "EZScriptRx",
     "private": true,
     "scripts": {
         "dev": "vite",
