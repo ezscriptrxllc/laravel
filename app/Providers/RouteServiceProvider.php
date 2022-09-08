@@ -40,6 +40,9 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('tests')
                 ->group(base_path('routes/tests.php'));
+
+            Route::prefix('webhooks')
+                ->group(base_path('routes/webhooks.php'));
         });
     }
 
