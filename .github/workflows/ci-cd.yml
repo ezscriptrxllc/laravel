@@ -124,6 +124,7 @@ jobs:
                 prerelease: true
               }
             ]
+            tag_format: '${version}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
