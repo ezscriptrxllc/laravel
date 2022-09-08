@@ -106,7 +106,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: codfish/semantic-release-action@v2
+      - name: Create Github release
+        uses: codfish/semantic-release-action@v2
         id: release
         with:
           branches: |
@@ -127,6 +128,12 @@ jobs:
           tag_format: '${version}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Forge tags
+        if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
+        run: |
+          curl -X GET -H 'Content-type: application/json' \
+          ${{ secrets.FORGE_TAGS_PRUNE_WEBHOOK }}
 
       - name: Create Jira release
         if: ${{ env.NEW_RELEASE_PUBLISHED == 'true' }}
